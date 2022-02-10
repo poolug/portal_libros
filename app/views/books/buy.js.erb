@@ -1,0 +1,2 @@
+$('#book-<%=@book.id%>').remove();
+$('#purchased').append('<%= escape_javascript(render(:partial => "books/book", :locals => {:book => @book})) %>');

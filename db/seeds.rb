@@ -10,9 +10,17 @@ require 'faker'
 
 100.times do |i|
   Book.create!(
-  title: Faker::Book.title,
-  author: Faker::Book.author,
-  status: 0,
-  code: i+1
+    title: Faker::Book.title,
+    author: Faker::Book.author,
+    status: 0,
+    code: i+1
+  )
+end
+
+3.times do |i|
+  User.create(
+    email: "user#{i+1}@mail.com",
+    password: "asdasd",
+    password_confirmation: "asdasd"
   )
 end

@@ -10,6 +10,15 @@
   </head>
 
   <body>
+    <span>
+      <% if user_signed_in? %>
+        <%= link_to 'Cerrar Sesión', destroy_user_session_path, method: :delete %> |
+        <%= link_to 'Mis reservas', current_user %>
+        <% else %>
+        <%= link_to 'Iniciar Sesión', user_session_path %> |
+        <%= link_to 'Home', root_path %>
+      <% end %>
+    </span>
     <%= yield %>
   </body>
 </html>

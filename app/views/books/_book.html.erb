@@ -1,0 +1,7 @@
+<tr id="book-<%=book.id%>">
+  <td><%= book.title %></td>
+  <td><%= book.author %></td>
+  <td><%= book.status %></td>
+  <td><%= book.code %></td>
+  <td><%= link_to 'Borrar', not_buy_path(book.id), method: :patch, remote: true, data: { confirm: "¿Está seguro?\n\nNo le reembolsaremos su dinero" } %></td>
+</tr>

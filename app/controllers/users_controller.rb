@@ -8,6 +8,9 @@ class UsersController < ApplicationController
 
   # GET /users/1 or /users/1.json
   def show
+    @user = current_user
+    @books = @user.books.reserved
+    @purchased = @user.books.purchased
   end
 
   # GET /users/new

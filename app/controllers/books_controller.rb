@@ -1,9 +1,10 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: %i[ show edit update destroy reserve anti_reserve buy anti_buy]
+  before_action :set_book, only: %i[ show edit update destroy reserve not_reserve buy not_buy]
+  before_action :authenticate_user!, only: [ :reserve ]
 
   # GET /books or /books.json
   def index
-    @books = Book.all
+    @books_available = Book.where(status: :available)
   end
 
   # GET /books/1 or /books/1.json
@@ -13,10 +14,12 @@ class BooksController < ApplicationController
   # GET /books/new
   def new
     @book = Book.new
+    self.select_status
   end
 
   # GET /books/1/edit
   def edit
+    self.select_status
   end
 
   # POST /books or /books.json
@@ -60,12 +63,13 @@ class BooksController < ApplicationController
   def reserve
     respond_to do |format|
       if @book.update!(status: 1, user: current_user)
+        sleep 1.seconds
         format.js { render nothing: true, notice: 'El libro fue reservado.' }
       end
     end
   end
 
-  def anti_reserve
+  def not_reserve
     respond_to do |format|
       if @book.update!(status: 0, user: nil)
         format.js { render nothing: true, notice: 'El libro ya no está reservado.' }
@@ -81,13 +85,18 @@ class BooksController < ApplicationController
     end
   end
 
-  def anti_buy
+  def not_buy
     respond_to do |format|
       if @book.update!(status: 3, user: current_user)
         format.js { render nothing: true }
       end
     end
   end
+
+  def select_status
+    @statuses = Book.statuses.keys.to_a
+  end
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.
